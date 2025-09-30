@@ -1,7 +1,7 @@
 // src/components/Auth/Login.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { signInWithEmail, signInWithGoogle } from '../../services/authService';
+import { signInWithEmail, signInWithGoogle, resendVerificationEmail } from '../../services/authService';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +10,8 @@ const Login = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [needsVerification, setNeedsVerification] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -18,19 +20,34 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear messages when user types
+    setError('');
+    setSuccess('');
   };
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
+    setNeedsVerification(false);
 
-    const { user, error: authError } = await signInWithEmail(formData.email, formData.password);
+    const { user, error: authError, requiresVerification, message } = await signInWithEmail(formData.email, formData.password);
     
-    if (user) {
-      navigate('/');
-    } else {
+    if (authError) {
       setError(authError);
+      if (requiresVerification) {
+        setNeedsVerification(true);
+      }
+      setLoading(false);
+      return;
+    }
+
+    if (user) {
+      setSuccess(message || 'Login successful!');
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     }
     
     setLoading(false);
@@ -39,15 +56,39 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     setLoading(true);
     setError('');
+    setSuccess('');
 
-    const { user, error: authError } = await signInWithGoogle();
+    const { user, error: authError, message } = await signInWithGoogle();
     
-    if (user) {
-      navigate('/');
-    } else {
+    if (authError) {
       setError(authError);
+      setLoading(false);
+      return;
+    }
+
+    if (user) {
+      setSuccess(message || 'Login successful!');
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     }
     
+    setLoading(false);
+  };
+
+  const handleResendVerification = async () => {
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    const { error: resendError, message } = await resendVerificationEmail();
+
+    if (resendError) {
+      setError(resendError);
+    } else {
+      setSuccess(message || 'Verification email sent!');
+    }
+
     setLoading(false);
   };
 
@@ -92,10 +133,52 @@ const Login = () => {
             padding: '1rem',
             borderRadius: '0.5rem',
             marginBottom: '1.5rem',
-            textAlign: 'center',
-            border: '1px solid #fcc'
+            border: '1px solid #fcc',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '0.5rem'
           }}>
-            <strong>Error:</strong> {error}
+            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+            <div style={{ flex: 1 }}>
+              <strong>Error:</strong> {error}
+              {needsVerification && (
+                <div style={{ marginTop: '0.5rem' }}>
+                  <button 
+                    onClick={handleResendVerification}
+                    disabled={loading}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#0984e3',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      padding: 0
+                    }}
+                  >
+                    Resend verification email
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div style={{
+            background: '#efe',
+            color: '#3c3',
+            padding: '1rem',
+            borderRadius: '0.5rem',
+            marginBottom: '1.5rem',
+            border: '1px solid #cfc',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <span style={{ fontSize: '1.2rem' }}>✅</span>
+            <span><strong>Success:</strong> {success}</span>
           </div>
         )}
 
@@ -202,7 +285,7 @@ const Login = () => {
               transition: 'background-color 0.3s'
             }}
           >
-            {loading ? '🔄 Signing In...' : '🚀 Sign In to CultureLink'}
+            {loading ? ' Signing In...' : ' Sign In to CultureLink'}
           </button>
         </form>
 

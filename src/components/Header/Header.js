@@ -70,34 +70,63 @@ const Header = () => {
             </form>
             
             {/* Authentication Section */}
-            {currentUser ? (
-              <div className="auth-section" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <User size={20} />
-                  <span style={{ fontSize: '0.9rem', color: '#cccccc' }}>
-                    {currentUser.displayName || 'User'}
-                  </span>
-                </div>
-                <button 
-                  onClick={handleLogout}
-                  className="logout-btn"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    backgroundColor: '#e74c3c',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '0.25rem',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem'
-                  }}
-                >
-                  <LogOut size={16} />
-                  Logout
-                </button>
-              </div>
+         {/* Authentication Section */}
+{currentUser ? (
+  <div className="auth-section" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+   <Link 
+  to="/profile"
+  className="user-info" 
+  style={{ 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '0.5rem',
+    textDecoration: 'none',
+    color: '#cccccc',
+    cursor: 'pointer',
+    transition: 'color 0.3s'
+  }}
+  onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+  onMouseLeave={(e) => e.currentTarget.style.color = '#cccccc'}
+>
+  {currentUser.photoURL ? (
+    <img 
+      src={currentUser.photoURL} 
+      alt="Profile" 
+      style={{
+        width: '32px',
+        height: '32px',
+        borderRadius: '50%',
+        objectFit: 'cover',
+        border: '2px solid #e67e22'
+      }}
+    />
+  ) : (
+    <User size={20} />
+  )}
+  <span style={{ fontSize: '0.9rem' }}>
+    {currentUser.displayName || 'User'}
+  </span>
+</Link>
+    <button 
+      onClick={handleLogout}
+      className="logout-btn"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        padding: '0.5rem 1rem',
+        backgroundColor: '#e74c3c',
+        color: 'white',
+        border: 'none',
+        borderRadius: '0.25rem',
+        cursor: 'pointer',
+        fontSize: '0.9rem'
+      }}
+    >
+      <LogOut size={16} />
+      Logout
+    </button>
+  </div>
             ) : (
               <div className="auth-buttons" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Link 

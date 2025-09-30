@@ -1,7 +1,7 @@
-// src/components/Auth/Signup.js - With Email Verification
+// src/components/Auth/Signup.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { signUpWithEmail, signInWithGoogle, resendEmailVerification } from '../../services/authService';
+import { signUpWithEmail, signInWithGoogle, resendVerificationEmail } from '../../services/authService';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +24,9 @@ const Signup = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear messages when user types
+    setError('');
+    setSuccess('');
   };
 
   const validateForm = () => {
@@ -55,34 +58,31 @@ const Signup = () => {
     }
 
     setLoading(true);
-    console.log('🔍 SIGNUP: Creating account with email verification...');
 
-    try {
-      const result = await signUpWithEmail(
-        formData.email, 
-        formData.password, 
-        formData.displayName
-      );
+    const { user, error: authError, message } = await signUpWithEmail(
+      formData.email, 
+      formData.password, 
+      formData.displayName
+    );
+    
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+      return;
+    }
+
+    if (user) {
+      setSuccess(message || 'Account created! Please check your email for verification.');
+      setAccountCreated(true);
+      setUserEmail(formData.email);
       
-      if (result.user) {
-        console.log('✅ SIGNUP: Account created, verification email sent');
-        setSuccess(result.message);
-        setAccountCreated(true);
-        setUserEmail(formData.email);
-        
-        // Clear form
-        setFormData({
-          displayName: '',
-          email: '',
-          password: '',
-          confirmPassword: ''
-        });
-      } else {
-        setError(result.error || 'Account creation failed');
-      }
-    } catch (error) {
-      console.error('❌ SIGNUP: Exception during signup:', error);
-      setError('Account creation failed: ' + error.message);
+      // Clear form
+      setFormData({
+        displayName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      });
     }
     
     setLoading(false);
@@ -93,15 +93,12 @@ const Signup = () => {
     setError('');
     setSuccess('');
 
-    try {
-      const result = await resendEmailVerification();
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setSuccess(result.message);
-      }
-    } catch (error) {
-      setError('Failed to resend verification email');
+    const { error: resendError, message } = await resendVerificationEmail();
+    
+    if (resendError) {
+      setError(resendError);
+    } else {
+      setSuccess(message || 'Verification email sent!');
     }
 
     setLoading(false);
@@ -110,14 +107,25 @@ const Signup = () => {
   const handleGoogleSignup = async () => {
     setLoading(true);
     setError('');
+    setSuccess('');
 
-    const { user, error: authError } = await signInWithGoogle();
+    const { user, error: authError, isNewUser, message } = await signInWithGoogle();
     
-    if (user) {
-      // Google accounts don't need email verification
-      navigate('/cultural-preferences');
-    } else {
+    if (authError) {
       setError(authError);
+      setLoading(false);
+      return;
+    }
+
+    if (user) {
+      setSuccess(message || 'Account created successfully!');
+      setTimeout(() => {
+        if (isNewUser) {
+          navigate('/cultural-preferences');
+        } else {
+          navigate('/');
+        }
+      }, 1000);
     }
     
     setLoading(false);
@@ -143,7 +151,6 @@ const Signup = () => {
           maxWidth: '500px',
           textAlign: 'center'
         }}>
-          {/* Success Icon */}
           <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📧</div>
           
           <h1 style={{ 
@@ -187,14 +194,19 @@ const Signup = () => {
 
           {success && (
             <div style={{
-              background: '#d4edda',
-              color: '#155724',
+              background: '#efe',
+              color: '#3c3',
               padding: '1rem',
               borderRadius: '0.5rem',
               marginBottom: '1.5rem',
-              border: '1px solid #c3e6cb'
+              border: '1px solid #cfc',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
             }}>
-              {success}
+              <span style={{ fontSize: '1.2rem' }}>✅</span>
+              <span>{success}</span>
             </div>
           )}
 
@@ -205,9 +217,14 @@ const Signup = () => {
               padding: '1rem',
               borderRadius: '0.5rem',
               marginBottom: '1.5rem',
-              border: '1px solid #fcc'
+              border: '1px solid #fcc',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
             }}>
-              {error}
+              <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+              <span>{error}</span>
             </div>
           )}
 
@@ -217,13 +234,13 @@ const Signup = () => {
               disabled={loading}
               style={{
                 padding: '0.75rem 2rem',
-                backgroundColor: '#3498db',
+                backgroundColor: loading ? '#bdc3c7' : '#3498db',
                 color: 'white',
                 border: 'none',
                 borderRadius: '0.5rem',
                 cursor: loading ? 'not-allowed' : 'pointer',
-                marginRight: '1rem',
-                fontSize: '1rem'
+                fontSize: '1rem',
+                fontWeight: 'bold'
               }}
             >
               {loading ? '📧 Sending...' : '📧 Resend Verification Email'}
@@ -278,7 +295,6 @@ const Signup = () => {
         width: '100%',
         maxWidth: '500px'
       }}>
-        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🇰🇪</div>
           <h1 style={{ 
@@ -294,7 +310,6 @@ const Signup = () => {
           </p>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div style={{
             background: '#fee',
@@ -302,16 +317,34 @@ const Signup = () => {
             padding: '1rem',
             borderRadius: '0.5rem',
             marginBottom: '1.5rem',
-            textAlign: 'center',
-            border: '1px solid #fcc'
+            border: '1px solid #fcc',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '0.5rem'
           }}>
-            <strong>Error:</strong> {error}
+            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+            <span><strong>Error:</strong> {error}</span>
           </div>
         )}
 
-        {/* Signup Form */}
+        {success && (
+          <div style={{
+            background: '#efe',
+            color: '#3c3',
+            padding: '1rem',
+            borderRadius: '0.5rem',
+            marginBottom: '1.5rem',
+            border: '1px solid #cfc',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <span style={{ fontSize: '1.2rem' }}>✅</span>
+            <span>{success}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSignup}>
-          {/* Full Name Field */}
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{ 
               display: 'block', 
@@ -346,7 +379,6 @@ const Signup = () => {
             </small>
           </div>
 
-          {/* Email Field */}
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{ 
               display: 'block', 
@@ -381,7 +413,6 @@ const Signup = () => {
             </small>
           </div>
 
-          {/* Password Field */}
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{ 
               display: 'block', 
@@ -435,7 +466,6 @@ const Signup = () => {
             </small>
           </div>
 
-          {/* Confirm Password Field */}
           <div style={{ marginBottom: '2rem' }}>
             <label style={{ 
               display: 'block', 
@@ -496,7 +526,6 @@ const Signup = () => {
             )}
           </div>
 
-          {/* Create Account Button */}
           <button
             type="submit"
             disabled={loading}
@@ -514,11 +543,10 @@ const Signup = () => {
               transition: 'background-color 0.3s'
             }}
           >
-            {loading ? ' Creating Account...' : ' Create Account'}
+            {loading ? '🔄 Creating Account...' : '🚀 Create Account'}
           </button>
         </form>
 
-        {/* Divider */}
         <div style={{ 
           textAlign: 'center', 
           margin: '1.5rem 0',
@@ -544,7 +572,6 @@ const Signup = () => {
           }}></div>
         </div>
 
-        {/* Google Sign Up Button */}
         <button
           onClick={handleGoogleSignup}
           disabled={loading}
@@ -569,7 +596,6 @@ const Signup = () => {
            Continue with Google
         </button>
 
-        {/* Footer Links */}
         <div style={{ textAlign: 'center' }}>
           <p style={{ color: '#666', marginBottom: '0.5rem' }}>
             Already have an account?{' '}

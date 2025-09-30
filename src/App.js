@@ -13,6 +13,7 @@ import Chat from './pages/Chat';
 import Events from './pages/Events';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
+import Profile from './components/UserProfile/profile';
 
 // Auth Components
 import Login from './components/Auth/Login';
@@ -110,6 +111,7 @@ const AppContent = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/profile" element={<Profile />} />
         
         {/* Authentication Routes */}
         <Route path="/login" element={<Login />} />
