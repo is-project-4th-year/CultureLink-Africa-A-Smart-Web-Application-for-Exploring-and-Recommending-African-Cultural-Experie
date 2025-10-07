@@ -1,7 +1,7 @@
 // src/components/Auth/ForgotPassword.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { sendPasswordReset } from '../../services/authService';
+import { ResetPassword } from '../../services/authService';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     }
 
     try {
-      const result = await sendPasswordReset(email);
+      const result = await ResetPassword(email);
       
       if (result.error) {
         setError(result.error);
@@ -44,7 +44,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const result = await sendPasswordReset(email);
+      const result = await ResetPassword(email);
       
       if (result.error) {
         setError(result.error);
