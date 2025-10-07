@@ -89,32 +89,21 @@ h1, h2, h3, .section-header h2, .modal-header h2, .achievement-card h3 {
   font-size: 0.95rem;
 }
 
-/* Profile Completion Progress */
-.progress-container {
+
+
+/* Profile Completion Progress*/
+.completion-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.progress-bar {
-  flex: 1;
-  height: 20px;
-  background: #e0e0e0;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #27ae60, #2ecc71);
-  transition: width 0.3s ease;
-}
-
-.progress-text {
-  font-weight: 600;
-  color: #2c3e50;
-  min-width: 80px;
+.completion-percentage {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #27ae60;
+  font-family: 'Sora', sans-serif;
 }
 
 .completion-tips {
@@ -201,6 +190,83 @@ h1, h2, h3, .section-header h2, .modal-header h2, .achievement-card h3 {
   border-radius: 0.25rem;
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+/* Blog Posts Grid */
+.blog-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.blog-post-card {
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 2px solid #f0f0f0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.blog-post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #e67e22;
+}
+
+.post-card-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.blog-post-card:hover .post-card-image img {
+  transform: scale(1.05);
+}
+
+.post-card-content {
+  padding: 1.25rem;
+}
+
+.post-card-tribe {
+  display: inline-block;
+  background: linear-gradient(135deg, #006600 0%, #008000 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.post-card-content h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.post-card-content p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .blog-posts-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Bookmarks */

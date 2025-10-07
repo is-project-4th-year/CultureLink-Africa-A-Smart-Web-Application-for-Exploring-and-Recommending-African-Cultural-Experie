@@ -5,11 +5,15 @@ import { useAuth } from '../../context/AuthContext';
 import { getUserDocument, updateUserPreferences } from '../../services/authService';
 import { auth } from '../../firebase/config';
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
-import { User, Mail, Calendar, Edit2, Save, X, Lock, Award, Bookmark, CheckCircle } from 'lucide-react';
+import { User, Mail, Calendar, Edit2, Save, X, Lock, Award, Bookmark, CheckCircle, Heart } from 'lucide-react';
 import './profile.css';
 
 import { uploadProfilePicture } from '../../services/authService';
 import { Upload } from 'lucide-react';
+import { getSavedPosts, getBlogPostById } from '../../services/blogService';
+
+
+
 
 const Profile = () => {
   const { currentUser } = useAuth();
@@ -22,6 +26,8 @@ const Profile = () => {
   const [success, setSuccess] = useState('');
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const fileInputRef = React.useRef(null);
+  const [savedBlogPosts, setSavedBlogPosts] = useState([]);
+  const [likedBlogPosts, setLikedBlogPosts] = useState([]);
   
   // Password change states
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -70,6 +76,7 @@ const Profile = () => {
       return;
     }
     loadUserData();
+    loadSavedAndLikedPosts(); 
   }, [currentUser, navigate]);
 
   const loadUserData = async () => {
@@ -246,6 +253,28 @@ const Profile = () => {
   
   setUploadingPhoto(false);
 };
+  const loadSavedAndLikedPosts = async () => {
+  try {
+    // Get saved posts
+    const { posts: savedPosts } = await getSavedPosts(currentUser.uid);
+    setSavedBlogPosts(savedPosts);
+
+    // Get liked posts
+    const userData = await getUserDocument(currentUser.uid);
+    if (userData && userData.likedPosts) {
+      const likedPosts = [];
+      for (const postId of userData.likedPosts) {
+        const { post } = await getBlogPostById(postId);
+        if (post) {
+          likedPosts.push(post);
+        }
+      }
+      setLikedBlogPosts(likedPosts);
+    }
+  } catch (error) {
+    console.error('Error loading posts:', error);
+  }
+};
 
   const getPasswordStrength = (password) => {
     if (!password) return { strength: 0, label: '', color: '' };
@@ -334,33 +363,29 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Profile Completion Progress */}
-        <div className="profile-section">
-          <h2>Profile Completion</h2>
-          <div className="progress-container">
-            <div className="progress-bar">
-              <div 
-                className="progress-fill" 
-                style={{ width: `${profileCompletion}%` }}
-              ></div>
-            </div>
-            <span className="progress-text">{profileCompletion}% Complete</span>
-          </div>
-          <div className="completion-tips">
-            {profileCompletion < 100 && (
-              <div className="tip-box">
-                <strong>Tips to complete your profile:</strong>
-                <ul>
-                  {!currentUser.displayName && <li>Add your display name</li>}
-                  {editedPreferences.favoriteTribes.length === 0 && <li>Select your favorite tribes</li>}
-                  {editedPreferences.interests.length === 0 && <li>Choose your cultural interests</li>}
-                  {!currentUser.photoURL && <li>Upload a profile picture</li>}
-                  {!currentUser.emailVerified && <li>Verify your email address</li>}
-                </ul>
+       {/* Profile Completion Progress */}
+          <div className="profile-section">
+            <div className="completion-header">
+              <h2>Profile Completion</h2>
+              <div className="completion-percentage">
+                {profileCompletion}%
               </div>
-            )}
+            </div>
+            <div className="completion-tips">
+              {profileCompletion < 100 && (
+                <div className="tip-box">
+                  <strong>Tips to complete your profile:</strong>
+                  <ul>
+                    {!currentUser.displayName && <li>Add your display name</li>}
+                    {editedPreferences.favoriteTribes.length === 0 && <li>Select your favorite tribes</li>}
+                    {editedPreferences.interests.length === 0 && <li>Choose your cultural interests</li>}
+                    {!currentUser.photoURL && <li>Upload a profile picture</li>}
+                    {!currentUser.emailVerified && <li>Verify your email address</li>}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
         {/* Achievements */}
         <div className="profile-section">
@@ -515,6 +540,70 @@ const Profile = () => {
               <p className="bookmark-count">{bookmarks.tribes?.length || 0} saved</p>
             </div>
           </div>
+        </div>
+
+                {/* Saved Blog Posts */}
+        <div className="profile-section">
+          <h2>
+            <Bookmark size={20} />
+            Saved Blog Posts
+          </h2>
+          {savedBlogPosts.length === 0 ? (
+            <p className="no-data">No saved posts yet. Start saving posts you like!</p>
+          ) : (
+            <div className="blog-posts-grid">
+              {savedBlogPosts.map(post => (
+                <div 
+                  key={post.id} 
+                  className="blog-post-card"
+                  onClick={() => navigate(`/blog/${post.id}`)}
+                >
+                  {post.imageURL && (
+                    <div className="post-card-image">
+                      <img src={post.imageURL} alt={post.title} />
+                    </div>
+                  )}
+                  <div className="post-card-content">
+                    <span className="post-card-tribe">{post.tribe}</span>
+                    <h3>{post.title}</h3>
+                    <p>{post.content.substring(0, 100)}...</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Liked Blog Posts */}
+        <div className="profile-section">
+          <h2>
+            <Heart size={20} />
+            Liked Blog Posts
+          </h2>
+          {likedBlogPosts.length === 0 ? (
+            <p className="no-data">No liked posts yet. Like posts to see them here!</p>
+          ) : (
+            <div className="blog-posts-grid">
+              {likedBlogPosts.map(post => (
+                <div 
+                  key={post.id} 
+                  className="blog-post-card"
+                  onClick={() => navigate(`/blog/${post.id}`)}
+                >
+                  {post.imageURL && (
+                    <div className="post-card-image">
+                      <img src={post.imageURL} alt={post.title} />
+                    </div>
+                  )}
+                  <div className="post-card-content">
+                    <span className="post-card-tribe">{post.tribe}</span>
+                    <h3>{post.title}</h3>
+                    <p>{post.content.substring(0, 100)}...</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Account Information & Security */}

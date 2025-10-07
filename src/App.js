@@ -11,9 +11,12 @@ import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Chat from './pages/Chat';
 import Events from './pages/Events';
-import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Profile from './components/UserProfile/profile';
+import Blog from './pages/Blog/Blog';
+import CreatePost from './pages/Blog/CreatePost';
+import ViewPost from './pages/Blog/ViewPost';
+import EditPost from './pages/Blog/EditPost';
 
 // Auth Components
 import Login from './components/Auth/Login';
@@ -83,7 +86,7 @@ const ErrorScreen = ({ error }) => (
         fontSize: '1rem'
       }}
     >
-      🔄 Reload Application
+       Reload Application
     </button>
   </div>
 );
@@ -109,9 +112,13 @@ const AppContent = () => {
         <Route path="/explore" element={<Explore />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/blog" element={<Blog />} />
+      
         <Route path="/contact" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/create" element={<CreatePost />} />
+        <Route path="/blog/:postId" element={<ViewPost />} />
+        <Route path="/blog/edit/:postId" element={<EditPost />} />
         
         {/* Authentication Routes */}
         <Route path="/login" element={<Login />} />
