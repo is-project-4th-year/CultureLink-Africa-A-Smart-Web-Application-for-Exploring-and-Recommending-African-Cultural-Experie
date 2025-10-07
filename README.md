@@ -44,7 +44,7 @@ A cultural exploration platform that connects users with the rich and diverse cu
 ##  Installation
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/culturelink-kenya.git
+git clone https://github.com/Khalayijamie/culturelink-kenya.git
 
 # Install dependencies
 npm install
