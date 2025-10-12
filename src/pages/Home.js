@@ -48,9 +48,14 @@ const Home = () => {
           <div className="features-grid">
             
             <div className="feature-card">
-              <div className="card-image african-markets"></div>
+              <img 
+              src="/images/African Market.jpg" 
+              alt="Traditional Arts & Crafts" 
+              className="card-image"
+            />
+             
               <div className="card-content">
-                <h3>🏺 Traditional Arts & Crafts</h3>
+                <h3> Traditional Arts & Crafts</h3>
                 <p>Discover Kikuyu pottery, Maasai beadwork, Luo fishing traditions, and Kalenjin metalwork that represent centuries of Kenyan craftsmanship.</p>
                 <button className="read-more" onClick={handleStartExploring}>
                   Learn More
@@ -59,7 +64,12 @@ const Home = () => {
             </div>
 
             <div className="feature-card">
-              <div className="card-image cultural-chat"></div>
+               <img 
+              src="/images/Chatbot2.jpg" 
+              alt="Traditional Arts & Crafts" 
+              className="card-image"
+            />
+              
               <div className="card-content">
                 <h3>💬 Cultural AI Assistant</h3>
                 <p>Ask our AI about Kenyan tribal traditions, languages, foods, ceremonies, and customs. Get instant answers about authentic Kenyan culture.</p>
@@ -70,7 +80,12 @@ const Home = () => {
             </div>
 
             <div className="feature-card">
-              <div className="card-image travel-guide"></div>
+              <img 
+              src="/images/Maasai.jpeg" 
+              alt="Traditional Arts & Crafts" 
+              className="card-image"
+            />
+              
               <div className="card-content">
                 <h3>🗺️ Kenyan Culture Guide</h3>
                 <p>Plan your cultural journey across Kenya. Discover where to experience authentic tribal ceremonies, traditional foods, and cultural sites.</p>
@@ -90,15 +105,15 @@ const Home = () => {
           <h2>Did You Know?</h2>
           <div className="facts-grid">
             <div className="fact-item">
-              <h4>🌍 5 Major Tribes</h4>
+              <h4> 5 Major Tribes</h4>
               <p>Kenya's cultural diversity includes Kikuyu, Maasai, Luo, Kalenjin, and Kamba communities, each with unique traditions.</p>
             </div>
             <div className="fact-item">
-              <h4>🗣️ 60+ Languages</h4>
+              <h4> 60+ Languages</h4>
               <p>Kenya has over 60 indigenous languages, with Swahili and English as official languages.</p>
             </div>
             <div className="fact-item">
-              <h4>🎭 Rich Ceremonies</h4>
+              <h4> Rich Ceremonies</h4>
               <p>From Maasai coming-of-age rituals to Kikuyu harvest festivals, Kenya's ceremonies mark life's important moments.</p>
             </div>
           </div>
