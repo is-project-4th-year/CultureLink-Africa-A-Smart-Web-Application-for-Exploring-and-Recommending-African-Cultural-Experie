@@ -147,17 +147,24 @@ body {
 
 .feature-card {
   background: #333333;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ 
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card-image {
   height: 200px;
+  width: 100%;
   background-size: cover;
   background-position: center;
 }

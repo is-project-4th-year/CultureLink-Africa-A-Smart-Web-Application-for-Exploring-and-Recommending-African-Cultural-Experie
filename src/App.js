@@ -5,6 +5,10 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Components
 import Header from './components/Header/Header';
+import TribesMap from './components/TribesMap';
+import TribesMapPage from './pages/TribesMapPage/TribesMapPage';
+
+
 
 // Pages
 import Home from './pages/Home';
@@ -17,6 +21,9 @@ import Blog from './pages/Blog/Blog';
 import CreatePost from './pages/Blog/CreatePost';
 import ViewPost from './pages/Blog/ViewPost';
 import EditPost from './pages/Blog/EditPost';
+import LanguageSelect from './pages/Learn/LanguageSelect';
+import LessonView from './pages/Learn/LessonView';
+import Quiz from './pages/Learn/Quiz';
 
 // Auth Components
 import Login from './components/Auth/Login';
@@ -119,7 +126,11 @@ const AppContent = () => {
         <Route path="/blog/create" element={<CreatePost />} />
         <Route path="/blog/:postId" element={<ViewPost />} />
         <Route path="/blog/edit/:postId" element={<EditPost />} />
-        
+        <Route path="/learn" element={<LanguageSelect />} />
+        <Route path="/learn/:languageId" element={<LessonView />} />
+        <Route path="/learn/:languageId/quiz" element={<Quiz />} />
+        <Route path="/map" element={<TribesMapPage />} />
+                
         {/* Authentication Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
