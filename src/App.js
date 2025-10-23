@@ -15,7 +15,7 @@ import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Chat from './pages/Chat';
 import Events from './pages/Events';
-import Contact from './pages/Contact';
+import Contact from './pages/Contact/Contact';
 import Profile from './components/UserProfile/profile';
 import Blog from './pages/Blog/Blog';
 import CreatePost from './pages/Blog/CreatePost';
@@ -24,6 +24,9 @@ import EditPost from './pages/Blog/EditPost';
 import LanguageSelect from './pages/Learn/LanguageSelect';
 import LessonView from './pages/Learn/LessonView';
 import Quiz from './pages/Learn/Quiz';
+import ChatInterface from './pages/Chat/ChatInterface';
+
+
 
 // Auth Components
 import Login from './components/Auth/Login';
@@ -117,10 +120,10 @@ const AppContent = () => {
         {/* Main Pages */}
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<ChatInterface />} />
         <Route path="/events" element={<Events />} />
       
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact/contact" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/create" element={<CreatePost />} />
@@ -130,6 +133,7 @@ const AppContent = () => {
         <Route path="/learn/:languageId" element={<LessonView />} />
         <Route path="/learn/:languageId/quiz" element={<Quiz />} />
         <Route path="/map" element={<TribesMapPage />} />
+        <Route path="/chat" element={<ChatInterface />} />
                 
         {/* Authentication Routes */}
         <Route path="/login" element={<Login />} />

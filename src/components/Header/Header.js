@@ -81,7 +81,7 @@ const Header = () => {
     alignItems: 'center', 
     gap: '0.5rem',
     textDecoration: 'none',
-    color: '#cccccc',
+    color: '#ffffffff',
     cursor: 'pointer',
     transition: 'color 0.3s'
   }}
@@ -97,7 +97,7 @@ const Header = () => {
         height: '32px',
         borderRadius: '50%',
         objectFit: 'cover',
-        border: '2px solid #e67e22'
+        border: '2px solid #b4a3a3ff'
       }}
     />
   ) : (
@@ -136,14 +136,14 @@ const Header = () => {
                     alignItems: 'center',
                     gap: '0.5rem',
                     padding: '0.5rem 1rem',
-                    backgroundColor: '#3498db',
+                    backgroundColor: '#c7ad4dff',
                     color: 'white',
                     textDecoration: 'none',
                     borderRadius: '0.25rem',
                     fontSize: '0.9rem'
                   }}
                 >
-                  <LogIn size={16} />
+                  <LogIn size={12} />
                   Login
                 </Link>
                 <Link 
@@ -153,7 +153,7 @@ const Header = () => {
                     alignItems: 'center',
                     gap: '0.5rem',
                     padding: '0.5rem 1rem',
-                    backgroundColor: '#e67e22',
+                    backgroundColor: '#916945ff',
                     color: 'white',
                     textDecoration: 'none',
                     borderRadius: '0.25rem',

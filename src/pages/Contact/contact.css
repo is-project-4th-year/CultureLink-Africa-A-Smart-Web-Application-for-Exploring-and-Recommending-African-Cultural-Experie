@@ -1,0 +1,120 @@
+.contact-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #f9f9f9 0%, #f1f7f1 100%);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 2rem 3rem;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.contact-card h2 {
+  color: #204020;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.intro {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  color: #204020;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 0.95rem;
+  color: #333;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #2b6b2b;
+  box-shadow: 0 0 5px rgba(43,107,43,0.3);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #2b6b2b, #1e4a1e);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #347c34, #275d27);
+  transform: scale(1.02);
+}
+
+.status {
+  margin-top: 1.2rem;
+  color: #1e4a1e;
+  font-weight: 500;
+}
+
+.contact-info {
+  text-align: center;
+  color: #333;
+}
+
+.contact-info h3 {
+  color: #204020;
+  margin-bottom: 0.8rem;
+}
+
+.contact-info p {
+  margin: 0.3rem 0;
+}
+
+.socials a {
+  color: #2b6b2b;
+  text-decoration: none;
+  margin: 0 0.3rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.socials a:hover {
+  color: #1e4a1e;
+}
