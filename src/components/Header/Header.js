@@ -192,7 +192,6 @@ const Header = () => {
           <Link to="/explore" className="sidebar-item" onClick={closeSidebar}>Explore</Link>
           <Link to="/chat" className="sidebar-item" onClick={closeSidebar}>Chat</Link>
           <Link to="/map" className="sidebar-item" onClick={closeSidebar}>Tribes Map</Link>
-          <Link to="/events" className="sidebar-item" onClick={closeSidebar}>Events</Link>
           <Link to="/blog" className="sidebar-item" onClick={closeSidebar}>Blog</Link>
           <Link to="/contact" className="sidebar-item" onClick={closeSidebar}>Contact Us</Link>
           <Link to="/learn" className="sidebar-item" onClick={closeSidebar}>Learn Languages</Link>

@@ -3,8 +3,37 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { getChatbotResponse, initializeChatbot } from '../../services/chatbotService';
 import { saveMessage, loadChatHistory, clearChatHistory } from '../../services/chatHistoryService';
-import { Send, Bot, User, Loader, Trash2 } from 'lucide-react';
+import { Send, Bot, User, Loader, Trash2, Info, Aperture, BookOpen, Globe, Users, Heart } from 'lucide-react';
 import './ChatInterface.css';
+
+// --- New Static Component for Chatbot Info ---
+const ChatbotInfoPanel = ({ initialized }) => {
+  const facts = [
+    { icon: <Globe size={18} className="fact-icon" />, text: "Focus: Specialized in **Kenyan Tribes, Traditions, and Customs** (40+ cultures)." },
+    { icon: <Aperture size={18} className="fact-icon" />, text: "Identity: The assistant's persona is named **'Shujaa'** (Swahili for 'Hero' or 'Warrior')." },
+    { icon: <BookOpen size={18} className="fact-icon" />, text: "Data Source: Trained on **342 verified cultural facts** and historical records." },
+    { icon: <Users size={18} className="fact-icon" />, text: "Goal: Designed to be an accessible, friendly, and **respectful cultural bridge**." },
+    { icon: <Heart size={18} className="fact-icon" />, text: "Language: Understands and uses simple **Swahili phrases** (Jambo, Asante) in conversations." }
+  ];
+
+  return (
+    <div className="chatbot-info-panel">
+      <h2><Info size={20} style={{ marginRight: '8px' }} /> About Shujaa AI</h2>
+      <ul>
+        {facts.map((fact, index) => (
+          <li key={index}>
+            {fact.icon}
+            <span dangerouslySetInnerHTML={{ __html: fact.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+          </li>
+        ))}
+      </ul>
+      <p style={{ marginTop: '2rem', fontSize: '0.8rem', color: '#9d9d9d' }}>
+        Status: {initialized ? 'Online and ready to chat' : 'Initializing cultural database...'}
+      </p>
+    </div>
+  );
+};
+// --- End of New Static Component ---
 
 const ChatInterface = () => {
   const { currentUser } = useAuth();
@@ -14,6 +43,9 @@ const ChatInterface = () => {
   const [initialized, setInitialized] = useState(false);
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // ... (Scroll to bottom, Initialize chatbot, Load chat history - NO CHANGE TO LOGIC) ...
+  // (All the useEffects and utility functions remain the same)
 
   // Scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -155,97 +187,121 @@ const ChatInterface = () => {
     }
   };
 
+    const handleNewChat = () => {
+     const confirmNew = window.confirm(
+       'Start a new chat? This will reset the conversation but will not delete your saved history.'
+     );
+     if (!confirmNew) return;
+
+     setMessages([{
+       role: 'assistant',
+       content: 'Jambo! 🇰🇪 I\'m your Kenyan culture assistant. Ask me anything about Kenyan tribes, traditions, languages, foods, ceremonies, or customs!',
+       timestamp: new Date()
+     }]);
+     // Ensure loading state is cleared and scroll to bottom
+     setLoading(false);
+     setTimeout(() => scrollToBottom(), 50);
+   };
+
+
   return (
     <div className="chat-page">
-      <div className="chat-container">
-        {/* Header */}
-        <div className="chat-header">
-          <div className="header-content">
-            <Bot size={40} className="header-icon" />
-            <div className="header-text">
-              <h1>Kenyan Culture Assistant</h1>
-              <p>Powered by Qwen AI • {initialized ? '342 cultural facts loaded' : 'Loading...'}</p>
+      <div className="main-chat-layout">
+        
+        {/* New Info Panel */}
+        <ChatbotInfoPanel initialized={initialized} />
+        
+        {/* Main Chat Interface */}
+        <div className="chat-container">
+          {/* Header */}
+          <div className="chat-header">
+            <div className="header-content">
+              <Bot size={30} className="header-icon" />
+              <div className="header-text">
+                <h1>Kenyan Culture Assistant (Shujaa AI)</h1>
+                <p>Powered by Qwen AI • {initialized ? '342 cultural facts loaded' : 'Loading...'}</p>
+              </div>
             </div>
+            {currentUser && messages.length > 1 && (
+              <button onClick={handleClearHistory} className="clear-btn" title="Clear chat history">
+                <Trash2 size={20} />
+              </button>
+            )}
           </div>
-          {currentUser && messages.length > 1 && (
-            <button onClick={handleClearHistory} className="clear-btn" title="Clear chat history">
-              <Trash2 size={20} />
-            </button>
-          )}
-        </div>
 
-        {/* Messages */}
-        <div className="chat-messages">
-          {messages.map((msg, idx) => (
-            <div key={idx} className={`message ${msg.role}`}>
-              <div className="message-avatar">
-                {msg.role === 'user' ? (
-                  currentUser?.photoURL ? (
-                    <img 
-                      src={currentUser.photoURL} 
-                      alt="User" 
-                      className="avatar-image"
-                    />
+          {/* Messages */}
+          <div className="chat-messages">
+            {messages.map((msg, idx) => (
+              <div key={idx} className={`message ${msg.role}`}>
+                <div className="message-avatar">
+                  {msg.role === 'user' ? (
+                    currentUser?.photoURL ? (
+                      <img 
+                        src={currentUser.photoURL} 
+                        alt="User" 
+                        className="avatar-image"
+                      />
+                    ) : (
+                      <User size={20} />
+                    )
                   ) : (
-                    <User size={24} />
-                  )
-                ) : (
-                  <Bot size={24} />
-                )}
+                    <Bot size={20} />
+                  )}
+                </div>
+                <div className="message-bubble">
+                  <p className="message-text">{msg.content}</p>
+                  {msg.sources && msg.sources.length > 0 && (
+                    <div className="message-sources">
+                      <small>📚 Sources used: {msg.sources.slice(0, 2).join(', ')}
+                        {msg.sources.length > 2 && ` +${msg.sources.length - 2} more`}
+                      </small>
+                    </div>
+                  )}
+                  <span className="message-time">
+                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
               </div>
-              <div className="message-bubble">
-                <p className="message-text">{msg.content}</p>
-                {msg.sources && msg.sources.length > 0 && (
-                  <div className="message-sources">
-                    <small>📚 Sources used: {msg.sources.slice(0, 2).join(', ')}
-                      {msg.sources.length > 2 && ` +${msg.sources.length - 2} more`}
-                    </small>
-                  </div>
-                )}
-                <span className="message-time">
-                  {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
+            ))}
+            
+            {loading && (
+              <div className="message assistant">
+                <div className="message-avatar">
+                  <Bot size={20} />
+                </div>
+                <div className="message-bubble loading">
+                  <Loader size={20} className="spinner" />
+                  <span>Thinking...</span>
+                </div>
               </div>
-            </div>
-          ))}
-          
-          {loading && (
-            <div className="message assistant">
-              <div className="message-avatar">
-                <Bot size={24} />
-              </div>
-              <div className="message-bubble loading">
-                <Loader size={20} className="spinner" />
-                <span>Thinking...</span>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input */}
-        <div className="chat-input-container">
-          <div className="chat-input">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask about Kenyan culture, traditions, languages..."
-              disabled={!initialized || loading}
-            />
-            <button 
-              onClick={handleSend} 
-              disabled={!input.trim() || !initialized || loading}
-              className="send-button"
-            >
-              <Send size={20} />
-            </button>
+            )}
+            
+            <div ref={messagesEndRef} />
           </div>
-          <p className="input-hint">
-            Try: "Tell me about Maasai warriors" or "What foods do Kikuyu people eat?"
-          </p>
+
+          {/* Input */}
+          <div className="chat-input-container">
+            <div className="chat-input">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask about Kenyan culture, traditions, languages..."
+                disabled={!initialized || loading}
+              />
+              <button 
+                onClick={handleSend} 
+                disabled={!input.trim() || !initialized || loading}
+                className="send-button"
+              >
+                <Send size={20} />
+              </button>
+            </div>
+            <p className="input-hint">
+              Try: "Tell me about Maasai warriors" or "What foods do Kikuyu people eat?"
+            </p>
+          </div>
         </div>
       </div>
     </div>

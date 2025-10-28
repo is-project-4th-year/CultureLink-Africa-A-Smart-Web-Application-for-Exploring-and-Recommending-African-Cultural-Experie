@@ -1,4 +1,4 @@
-// src/App.js - Updated with Forgot Password Route
+// src/App.js - Updated with Cold Start Modal
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -8,13 +8,10 @@ import Header from './components/Header/Header';
 import TribesMap from './components/TribesMap';
 import TribesMapPage from './pages/TribesMapPage/TribesMapPage';
 
-
-
 // Pages
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Chat from './pages/Chat';
-import Events from './pages/Events';
 import Contact from './pages/Contact/Contact';
 import Profile from './components/UserProfile/profile';
 import Blog from './pages/Blog/Blog';
@@ -26,7 +23,10 @@ import LessonView from './pages/Learn/LessonView';
 import Quiz from './pages/Learn/Quiz';
 import ChatInterface from './pages/Chat/ChatInterface';
 
-
+// Cold Start Components
+import ColdStartModal from './components/ColdStart/ColdStartModal';
+import { useColdStart } from './hooks/useColdStart';
+import { skipColdStart } from './services/coldStartService';
 
 // Auth Components
 import Login from './components/Auth/Login';
@@ -103,9 +103,61 @@ const ErrorScreen = ({ error }) => (
 
 // Main App Content
 const AppContent = () => {
-  const { loading, error } = useAuth();
+  const { user, loading, error } = useAuth();
 
-  if (loading) {
+  // DEBUG LOGS
+  console.log('========================================');
+  console.log('App.js Debug:');
+  console.log('  user exists?', !!user);
+  console.log('  user UID:', user?.uid);
+  console.log('  loading?', loading);
+  console.log('  error?', error);
+  console.log('========================================');
+
+  const { 
+    showColdStartModal, 
+    checking, 
+    handleComplete, 
+    handleSkip 
+  } = useColdStart(user);
+
+  // MORE DEBUG LOGS
+  console.log('Cold Start Hook Results:');
+  console.log('  showColdStartModal?', showColdStartModal);
+  console.log('  checking?', checking);
+  console.log('  Should render modal?', user && showColdStartModal);
+  console.log('========================================');
+
+ 
+
+  // 🎯 COLD START COMPLETION HANDLER
+  const handleColdStartComplete = (preferences) => {
+    console.log('✅ Cold start preferences saved:', preferences);
+    handleComplete();
+    
+    // Optional: Show success toast/notification
+    // Optional: Redirect to explore page
+    // Example: navigate('/explore');
+  };
+
+  // 🎯 COLD START SKIP HANDLER
+  const handleColdStartSkip = async () => {
+    try {
+      if (user) {
+        await skipColdStart(user.uid);
+        console.log('User skipped cold start onboarding');
+      }
+      handleSkip();
+    } catch (error) {
+      console.error('Error skipping cold start:', error);
+      handleSkip();
+    }
+  };
+
+  
+
+  // Show loading while checking auth or cold start status
+  if (loading || checking) {
     return <LoadingScreen />;
   }
 
@@ -121,9 +173,7 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/chat" element={<ChatInterface />} />
-        <Route path="/events" element={<Events />} />
-      
-        <Route path="/contact/contact" element={<Contact />} />
+        <Route path="/Contact" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/create" element={<CreatePost />} />
@@ -133,7 +183,6 @@ const AppContent = () => {
         <Route path="/learn/:languageId" element={<LessonView />} />
         <Route path="/learn/:languageId/quiz" element={<Quiz />} />
         <Route path="/map" element={<TribesMapPage />} />
-        <Route path="/chat" element={<ChatInterface />} />
                 
         {/* Authentication Routes */}
         <Route path="/login" element={<Login />} />
@@ -141,6 +190,19 @@ const AppContent = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/cultural-preferences" element={<CulturalPreferences />} />
       </Routes>
+
+      {/* 🎯 COLD START MODAL - Shows on first login */}
+      {console.log('Rendering modal check:', { hasUser: !!user, showModal: showColdStartModal })}
+      
+       {user && showColdStartModal && (        <>
+          {console.log('MODAL IS RENDERING NOW')}
+          <ColdStartModal
+            user={user}
+            onComplete={handleColdStartComplete}
+            onSkip={handleColdStartSkip}
+          />
+        </>
+      )}
     </div>
   );
 };
