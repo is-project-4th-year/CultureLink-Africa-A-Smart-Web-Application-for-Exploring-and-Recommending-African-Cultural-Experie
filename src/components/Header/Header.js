@@ -1,6 +1,6 @@
 // src/components/Header/Header.js
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom'; // Add useLocation
 import { Search, Menu, User, LogOut, LogIn, UserPlus, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { logOut } from '../../services/authService';
@@ -11,6 +11,11 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); // Add this
+
+  // Define auth pages where search should be hidden
+  const authPages = ['/login', '/signup', '/forgot-password', '/cultural-preferences'];
+  const isAuthPage = authPages.includes(location.pathname);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -37,16 +42,18 @@ const Header = () => {
     <>
       <header className="professional-header">
         <div className="header-container">
-          {/* Menu Button - Left Side with Hover */}
-          <div 
-            className="sidebar-trigger"
-            onMouseEnter={() => setIsSidebarOpen(true)}
-          >
-            <button className="sidebar-menu-btn">
-              <Menu size={24} />
-            </button>
-          </div>
-
+          {/* Menu Button - Only show if NOT on auth pages */}
+          {!isAuthPage && (
+            <div 
+              className="sidebar-trigger"
+              onMouseEnter={() => setIsSidebarOpen(true)}
+            >
+              <button className="sidebar-menu-btn">
+                <Menu size={24} />
+              </button>
+            </div>
+          )}
+          
           {/* Logo Section - Left aligned with more space */}
           <div className="logo-section">
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
@@ -57,76 +64,77 @@ const Header = () => {
 
           {/* Right Actions */}
           <div className="header-actions">
-            {/* Search */}
-            <form onSubmit={handleSearch} className="search-container">
-              <Search className="search-icon" size={18} />
-              <input
-                type="text"
-                placeholder="Search Kenyan culture..."
-                className="search-input"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </form>
+            {/* Search - Only show if NOT on auth pages */}
+            {!isAuthPage && (
+              <form onSubmit={handleSearch} className="search-container">
+                <Search className="search-icon" size={18} />
+                <input
+                  type="text"
+                  placeholder="Search Kenyan culture..."
+                  className="search-input"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </form>
+            )}
             
             {/* Authentication Section */}
-         {/* Authentication Section */}
-{currentUser ? (
-  <div className="auth-section" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-   <Link 
-  to="/profile"
-  className="user-info" 
-  style={{ 
-    display: 'flex', 
-    alignItems: 'center', 
-    gap: '0.5rem',
-    textDecoration: 'none',
-    color: '#ffffffff',
-    cursor: 'pointer',
-    transition: 'color 0.3s'
-  }}
-  onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-  onMouseLeave={(e) => e.currentTarget.style.color = '#cccccc'}
->
-  {currentUser.photoURL ? (
-    <img 
-      src={currentUser.photoURL} 
-      alt="Profile" 
-      style={{
-        width: '32px',
-        height: '32px',
-        borderRadius: '50%',
-        objectFit: 'cover',
-        border: '2px solid #b4a3a3ff'
-      }}
-    />
-  ) : (
-    <User size={20} />
-  )}
-  <span style={{ fontSize: '0.9rem' }}>
-    {currentUser.displayName || 'User'}
-  </span>
-</Link>
-    <button 
-      onClick={handleLogout}
-      className="logout-btn"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        padding: '0.5rem 1rem',
-        backgroundColor: '#e74c3c',
-        color: 'white',
-        border: 'none',
-        borderRadius: '0.25rem',
-        cursor: 'pointer',
-        fontSize: '0.9rem'
-      }}
-    >
-      <LogOut size={16} />
-      Logout
-    </button>
-  </div>
+            {currentUser ? (
+              <div className="auth-section" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Link 
+                  to="/profile"
+                  className="user-info" 
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    textDecoration: 'none',
+                    color: '#ffffffff',
+                    cursor: 'pointer',
+                    transition: 'color 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#cccccc'}
+                >
+                  {currentUser.photoURL ? (
+                    <img 
+                      src={currentUser.photoURL} 
+                      alt="Profile" 
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        border: '2px solid #b4a3a3ff'
+                      }}
+                    />
+                  ) : (
+                    <User size={20} />
+                  )}
+                  <span style={{ fontSize: '0.9rem' }}>
+                    {currentUser.displayName || 'User'}
+                  </span>
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  className="logout-btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#e74c3c',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '0.25rem',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  <LogOut size={16} />
+                  Logout
+                </button>
+              </div>
             ) : (
               <div className="auth-buttons" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Link 
@@ -195,9 +203,7 @@ const Header = () => {
           <Link to="/blog" className="sidebar-item" onClick={closeSidebar}>Blog</Link>
           <Link to="/contact" className="sidebar-item" onClick={closeSidebar}>Contact Us</Link>
           <Link to="/learn" className="sidebar-item" onClick={closeSidebar}>Learn Languages</Link>
- 
         </div>
-        
       </nav>
     </>
   );

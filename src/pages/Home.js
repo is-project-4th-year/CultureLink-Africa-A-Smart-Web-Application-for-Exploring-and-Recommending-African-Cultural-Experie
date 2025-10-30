@@ -1,10 +1,141 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RecommendedForYou from '../components/Recommendations/RecommendedForYou';
+import { useAuth } from '../context/AuthContext';
+
+
+
+// Then update your hero section JSX to:
 
 const Home = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [currentFactIndex, setCurrentFactIndex] = useState(0);
   const [countUp, setCountUp] = useState({ tribes: 0, languages: 0, ceremonies: 0 });
+
+  // Kenyan Tribes Data (for recommendations)
+  const kenyanTribes = [
+    {
+      name: 'Kikuyu',
+      population: '8.1 million',
+      region: 'Central Kenya',
+      highlights: ['Mount Kenya traditions', 'Coffee farming culture', 'Gikuyu language', 'Traditional governance'],
+      description: 'The largest ethnic group in Kenya, known for their agricultural practices and entrepreneurial spirit.',
+      categories: ['food', 'ceremonies', 'languages', 'arts']
+    },
+    {
+      name: 'Maasai',
+      population: '1.2 million',
+      region: 'Southern Kenya & Northern Tanzania',
+      highlights: ['Warrior traditions', 'Cattle herding', 'Distinctive dress', 'Age-set system'],
+      description: 'Semi-nomadic pastoralists famous for their distinctive customs and dress, living near game parks.',
+      categories: ['ceremonies', 'clothing', 'music', 'food']
+    },
+    {
+      name: 'Luo',
+      population: '4.4 million',
+      region: 'Western Kenya (Lake Victoria)',
+      highlights: ['Fishing culture', 'Oral traditions', 'Music and dance', 'Lakeside living'],
+      description: 'Nilotic people known for their fishing culture, oral literature, and musical traditions.',
+      categories: ['food', 'music', 'ceremonies', 'languages']
+    },
+    {
+      name: 'Kalenjin',
+      population: '5.3 million',
+      region: 'Rift Valley',
+      highlights: ['Running champions', 'Highland farming', 'Ceremonial traditions', 'Age-grade systems'],
+      description: 'Highland people famous for producing world-class long-distance runners and rich ceremonial life.',
+      categories: ['ceremonies', 'music', 'languages', 'food']
+    },
+    {
+      name: 'Kamba',
+      population: '4.6 million',
+      region: 'Eastern Kenya',
+      highlights: ['Wood carving', 'Trading culture', 'Traditional medicine', 'Storytelling'],
+      description: 'Skilled artisans and traders known for wood carving, traditional medicine, and rich oral traditions.',
+      categories: ['arts', 'music', 'languages', 'food']
+    },
+    {
+      name: 'Luhya',
+      population: '6.8 million',
+      region: 'Western Kenya',
+      highlights: ['Bullfighting traditions', 'Agriculture', 'Bukusu circumcision', 'Isukha pottery'],
+      description: 'Kenya\'s second-largest ethnic group, consisting of 18 sub-tribes with diverse cultural practices and agricultural expertise.',
+      categories: ['ceremonies', 'food', 'arts', 'music']
+    },
+    {
+      name: 'Kisii',
+      population: '2.7 million',
+      region: 'Nyanza Province',
+      highlights: ['Soapstone carving', 'Banana farming', 'Traditional medicine', 'Communal living'],
+      description: 'Highland Bantu people renowned for their soapstone sculptures and agricultural prowess in the fertile Kisii highlands.',
+      categories: ['arts', 'food', 'ceremonies', 'languages']
+    },
+    {
+      name: 'Meru',
+      population: '1.9 million',
+      region: 'Mount Kenya Eastern Slopes',
+      highlights: ['Miraa cultivation', 'Age-set systems', 'Council of elders', 'Traditional festivals'],
+      description: 'Bantu-speaking people living on the slopes of Mount Kenya, known for miraa farming and strong traditional governance.',
+      categories: ['food', 'ceremonies', 'languages', 'music']
+    },
+    {
+      name: 'Mijikenda',
+      population: '2.5 million',
+      region: 'Coastal Kenya',
+      highlights: ['Kaya sacred forests', 'Coconut farming', 'Swahili influence', 'Maritime traditions'],
+      description: 'Coastal people comprising nine related tribes, guardians of sacred Kaya forests and rich coastal traditions.',
+      categories: ['ceremonies', 'languages', 'food', 'arts']
+    },
+    {
+      name: 'Turkana',
+      population: '1.0 million',
+      region: 'Northwestern Kenya',
+      highlights: ['Pastoralism', 'Beadwork', 'Nomadic lifestyle', 'Lake Turkana culture'],
+      description: 'Nilotic pastoralists of the arid northwest, known for their resilience, distinctive adornments, and nomadic traditions.',
+      categories: ['clothing', 'ceremonies', 'arts', 'food']
+    },
+    {
+      name: 'Embu',
+      population: '608,000',
+      region: 'Eastern Mount Kenya',
+      highlights: ['Coffee cultivation', 'Traditional medicine', 'Njuri Ncheke council', 'Irrigation systems'],
+      description: 'Bantu people from the southeastern slopes of Mount Kenya, skilled farmers with strong democratic traditions.',
+      categories: ['food', 'ceremonies', 'languages', 'arts']
+    },
+    {
+      name: 'Taita',
+      population: '340,000',
+      region: 'Taita-Taveta County',
+      highlights: ['Terrace farming', 'Skull worship', 'Traditional irrigation', 'Mountain culture'],
+      description: 'Bantu people of the Taita Hills, masters of terrace farming and guardians of unique highland traditions.',
+      categories: ['food', 'ceremonies', 'languages', 'arts']
+    },
+    {
+      name: 'Samburu',
+      population: '310,000',
+      region: 'Northern Kenya',
+      highlights: ['Pastoralism', 'Warrior culture', 'Beaded jewelry', 'Close Maasai relations'],
+      description: 'Nilotic pastoralists closely related to the Maasai, maintaining traditional semi-nomadic lifestyle in northern rangelands.',
+      categories: ['clothing', 'ceremonies', 'arts', 'music']
+    },
+    {
+      name: 'Pokot',
+      population: '778,000',
+      region: 'West Pokot & Baringo',
+      highlights: ['Cattle herding', 'Irrigation expertise', 'Traditional ceremonies', 'Highland-lowland divide'],
+      description: 'Nilotic people divided into highland farmers and lowland pastoralists, known for elaborate ceremonies and cattle culture.',
+      categories: ['ceremonies', 'food', 'clothing', 'music']
+    },
+    {
+      name: 'Tharaka',
+      population: '175,000',
+      region: 'Tharaka-Nithi County',
+      highlights: ['Honey production', 'Basket weaving', 'Drought-resistant farming', 'Traditional governance'],
+      description: 'Bantu people of the semi-arid eastern region, skilled in beekeeping and adapted to challenging environments.',
+      categories: ['food', 'arts', 'ceremonies', 'languages']
+    }
+  ];
 
   // Rotating "Did You Know?" facts
   const culturalFacts = [
@@ -132,6 +263,12 @@ const Home = () => {
       <section className="hero-section">
         <div className="hero-overlay">
           <div className="hero-content">
+            {/* Personalized Greeting */}
+      {currentUser && (
+        <p className="user-greeting">
+          Hello, {currentUser.displayName || 'Explorer'}! 
+        </p>
+      )}
             <h1>Welcome to CultureLink Kenya</h1>
             <p>Discover the rich heritage and vibrant cultures of Kenya's diverse communities. From the highlands to the coast, explore traditions that have shaped our nation for generations.</p>
             <p className="hero-subtitle">Experience authentic Kenyan culture through the eyes of the Kikuyu, Maasai, Luo, Kalenjin, and Kamba communities.</p>
@@ -162,6 +299,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* RECOMMENDED FOR YOU SECTION - NEW! */}
+      <RecommendedForYou allTribes={kenyanTribes} />
 
       {/* Featured Tribe Spotlight - Rotating */}
       <section className="tribe-spotlight">

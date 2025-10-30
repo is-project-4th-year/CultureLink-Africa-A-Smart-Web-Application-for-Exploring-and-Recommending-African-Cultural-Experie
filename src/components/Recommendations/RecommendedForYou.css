@@ -1,0 +1,243 @@
+/* src/components/Recommendations/RecommendedForYou.css */
+
+.recommended-section {
+  padding: 3rem 0;
+  background: linear-gradient(135deg, rgba(245, 240, 232, 0.5) 0%, rgba(232, 220, 200, 0.3) 100%);
+}
+
+.recommended-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.recommended-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.recommended-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6B4423;
+  margin-bottom: 0.5rem;
+  font-family: 'Sora', sans-serif;
+}
+
+.recommended-header p {
+  font-size: 1rem;
+  color: #8D6E63;
+}
+
+/* Recommended Tribes Section */
+.recommended-tribes {
+  margin-bottom: 3rem;
+}
+
+.recommended-tribes h3 {
+  font-size: 1.5rem;
+  color: #6B4423;
+  margin-bottom: 1.5rem;
+  font-family: 'Sora', sans-serif;
+}
+
+.tribes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.recommendation-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(107, 68, 35, 0.1);
+  border: 1px solid rgba(139, 111, 71, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(107, 68, 35, 0.2);
+}
+
+.recommendation-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.recommendation-card h4 {
+  font-size: 1.3rem;
+  color: #6B4423;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tribe-region {
+  color: #8D6E63;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.tribe-description {
+  color: #3E2723;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.matching-interests {
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(139, 111, 71, 0.15);
+}
+
+.matching-interests strong {
+  color: #6B4423;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.interest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.interest-tag {
+  background: linear-gradient(135deg, rgba(205, 133, 63, 0.15) 0%, rgba(184, 149, 106, 0.15) 100%);
+  color: #6B4423;
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(139, 111, 71, 0.2);
+}
+
+.explore-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.explore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 68, 35, 0.3);
+}
+
+/* Recommended Content Section */
+.recommended-content {
+  margin-bottom: 2rem;
+}
+
+.recommended-content h3 {
+  font-size: 1.5rem;
+  color: #6B4423;
+  margin-bottom: 1.5rem;
+  font-family: 'Sora', sans-serif;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+.content-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(107, 68, 35, 0.08);
+  border: 1px solid rgba(139, 111, 71, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.content-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(107, 68, 35, 0.15);
+}
+
+.content-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.content-card h4 {
+  font-size: 1.1rem;
+  color: #6B4423;
+  margin-bottom: 0.5rem;
+}
+
+.content-card p {
+  color: #3E2723;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.recommendation-reason {
+  display: block;
+  font-size: 0.75rem;
+  color: #8D6E63;
+  font-style: italic;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(139, 111, 71, 0.1);
+}
+
+/* Explanation Section */
+.recommendation-explanation {
+  background: linear-gradient(135deg, rgba(245, 230, 211, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 111, 71, 0.2);
+  text-align: center;
+}
+
+.recommendation-explanation h4 {
+  font-size: 1.1rem;
+  color: #6B4423;
+  margin-bottom: 0.75rem;
+}
+
+.recommendation-explanation p {
+  color: #3E2723;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.recommendation-explanation strong {
+  color: #6B4423;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tribes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recommended-header h2 {
+    font-size: 1.6rem;
+  }
+}
