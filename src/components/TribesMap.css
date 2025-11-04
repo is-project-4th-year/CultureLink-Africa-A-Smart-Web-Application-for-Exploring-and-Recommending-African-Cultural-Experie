@@ -1,0 +1,466 @@
+/* TribesMap.css - Updated for Comprehensive Map */
+
+.tribes-map-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+  min-height: 100vh;
+}
+
+.map-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.map-header h2 {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.map-header p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.map-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  padding: 0.5rem 1.5rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.stat-item strong {
+  color: #e67e22;
+  margin-right: 0.5rem;
+}
+
+.map-container {
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 4px solid white;
+}
+
+/* Leaflet Map Customization */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tribe Popup */
+.tribe-popup {
+  min-width: 280px;
+}
+
+.tribe-popup h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.tribe-popup p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.tribe-popup strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.popup-description {
+  margin-top: 1rem;
+  line-height: 1.6;
+  color: #555;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 0.8rem;
+}
+
+.popup-btn {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.popup-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Map Legend - Organized by Groups */
+.map-legend {
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.map-legend > h3 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+  text-align: center;
+  font-weight: 700;
+}
+
+.legend-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.legend-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.legend-section h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-section h4::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, #e67e22, #d35400);
+  border-radius: 2px;
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: #f8f9fa;
+}
+
+.legend-item:hover {
+  transform: translateX(5px);
+  background: #e8eef3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.legend-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Selected Tribe Info Card */
+.tribe-info-card {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  max-width: 450px;
+  width: 90%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  z-index: 1000;
+  animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 3px solid #f0f0f0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: #666;
+  font-weight: 300;
+}
+
+.close-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+  transform: rotate(90deg);
+}
+
+.tribe-info-header {
+  border-left: 5px solid;
+  padding-left: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.tribe-info-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.tribe-region {
+  font-size: 0.95rem;
+  color: #666;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.tribe-info-body {
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  color: #444;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.info-item strong {
+  display: block;
+  color: #1a1a1a;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.explore-tribe-btn {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.explore-tribe-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.explore-tribe-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .legend-items {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .tribes-map-section {
+    padding: 2rem 1rem;
+  }
+
+  .map-header h2 {
+    font-size: 2rem;
+  }
+
+  .map-header p {
+    font-size: 1rem;
+  }
+
+  .map-stats {
+    gap: 1rem;
+  }
+
+  .stat-item {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .map-container {
+    margin-bottom: 2rem;
+  }
+
+  .map-legend {
+    padding: 1.5rem;
+  }
+
+  .map-legend > h3 {
+    font-size: 1.5rem;
+  }
+
+  .legend-section h4 {
+    font-size: 1.1rem;
+  }
+
+  .legend-items {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .legend-name {
+    font-size: 0.85rem;
+  }
+
+  .tribe-info-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 1.5rem;
+    border: none;
+    border-top: 3px solid #f0f0f0;
+  }
+
+  .tribe-info-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .info-item {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .map-header p {
+    font-size: 0.9rem;
+  }
+
+  .map-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tribe-popup {
+    min-width: 220px;
+  }
+
+  .tribe-popup h3 {
+    font-size: 1.3rem;
+  }
+
+  .legend-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .legend-item {
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 16px;
+  }
+
+  .legend-name {
+    font-size: 0.8rem;
+  }
+
+  .tribe-info-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .explore-tribe-btn {
+    font-size: 0.95rem;
+    padding: 0.9rem 1.2rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .close-btn,
+  .explore-tribe-btn,
+  .popup-btn {
+    display: none;
+  }
+
+  .tribe-info-card {
+    position: relative;
+    box-shadow: none;
+    border: 2px solid #333;
+    page-break-inside: avoid;
+  }
+
+  .map-container {
+    page-break-before: always;
+  }
+}

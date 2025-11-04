@@ -1,0 +1,231 @@
+/* Learn.css - Main Language Learning Page Styles */
+
+.learn-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 2rem;
+  color: white;
+}
+
+.learn-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.learn-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.learn-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.learn-subtitle {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+/* Language Grid */
+.languages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.language-card {
+  background: rgb(255, 255, 255);
+  border-radius: 12px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 3px solid transparent;
+}
+
+.language-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.language-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.language-flag {
+  font-size: 3rem;
+  margin-right: 1rem;
+}
+
+.language-card h2 {
+  font-size: 1.8rem;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.language-card p {
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.language-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.start-learning-btn {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-learning-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* Error/Loading States */
+.error-container,
+.loading-container {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.error-container h2,
+.loading-container h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .learn-container {
+    padding: 1rem;
+  }
+
+  .learn-header h1 {
+    font-size: 2rem;
+  }
+
+  .languages-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .language-card {
+    padding: 1.5rem;
+  }
+}
+
+.language-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+}
+
+/* When there's a background image, make text white */
+.language-card[style*="backgroundImage"] {
+  color: white;
+}
+
+.language-card[style*="backgroundImage"] h3,
+.language-card[style*="backgroundImage"] p {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.language-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.language-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.language-info {
+  flex: 1;
+}
+
+.language-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.language-tribe {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-bottom: 0.3rem;
+}
+
+.language-words {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.language-arrow {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+.language-card:hover .language-arrow {
+  transform: translateX(5px);
+  opacity: 1;
+}

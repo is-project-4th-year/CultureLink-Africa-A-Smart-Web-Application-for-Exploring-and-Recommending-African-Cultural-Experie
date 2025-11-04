@@ -1,0 +1,322 @@
+/* src/components/Header/Header.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+
+.professional-header {
+  background: linear-gradient(135deg, 
+    rgba(252, 240, 230, 0.98) 0%,           /* Ultra dark brown, almost opaque */
+    rgba(88, 58, 40, 0.98) 100%         /* Slightly lighter but still very dark */
+  );
+  backdrop-filter: blur(10px);
+  color: rgb(18, 10, 10);
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(98, 73, 57, 0.6);
+  border-bottom: 1px solid rgba(189, 143, 28, 0.15);  /* Subtle golden line */
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Sidebar Trigger Area */
+.sidebar-trigger {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo Section - Better spacing */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: auto;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  opacity: 1;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 2px solid rgba(33, 26, 8, 0.3);  /* Golden border */
+  padding: 4px;
+  background: rgba(189, 143, 28, 0.1);  /* Subtle golden glow */
+  transition: all 0.3s ease;
+}
+
+.logo-icon:hover {
+  border-color: rgba(189, 143, 28, 0.5);
+  background: rgba(189, 143, 28, 0.15);
+  transform: scale(1.05);
+}
+
+.logo-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2e241b;  /* Warm off-white like hero text */
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.5px;
+  text-shadow: 1px 1px 3px rgba(20, 11, 5, 0.5);
+}
+
+/* Sidebar Menu Button */
+.sidebar-menu-btn {
+  background: none;
+  border: none;
+  color: #000000;  /* Warm beige */
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.sidebar-menu-btn:hover {
+  background: rgba(94, 94, 45, 0.1);  /* Golden hover */
+  color: #faf6f2;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background: rgba(26, 17, 11, 0.5);  /* Dark brown with transparency */
+  padding: 0.1rem 1rem;
+  border-radius: 6px;
+  border: 1px solid rgba(189, 143, 28, 0.2);  /* Golden border */
+  gap: 0.5rem;
+  min-width: 250px;
+  transition: all 0.3s ease;
+}
+
+.search-container:focus-within {
+  border-color: rgba(189, 143, 28, 0.4);
+  background: rgba(46, 25, 11, 0.7);
+}
+
+.search-icon {
+  color: #d4a574;  /* Muted gold */
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #faf6f2;
+  flex: 1;
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.search-input::placeholder {
+  color: #8d6e4a;  /* Muted brown */
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(31, 24, 19, 0.7);  /* Dark brown overlay */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1100;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sliding Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(180deg,
+    rgba(107, 76, 58, 0.98) 0%,
+    rgba(46, 25, 11, 0.98) 100%
+  );
+  box-shadow: 4px 0 20px rgba(20, 11, 5, 0.5);
+  transition: left 0.3s ease;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(189, 143, 28, 0.15);
+}
+
+.sidebar-open {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(189, 143, 28, 0.15);
+  background: rgba(20, 11, 5, 0.3);
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #faf6f2;
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  text-shadow: 1px 1px 3px rgba(20, 11, 5, 0.5);
+}
+
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  color: #e8dcc4;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.sidebar-close-btn:hover {
+  background: rgba(189, 143, 28, 0.1);
+  color: #faf6f2;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.sidebar-item {
+  color: #e8dcc4;  /* Warm beige */
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  border-left: 3px solid transparent;
+  position: relative;
+}
+
+.sidebar-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, rgba(189, 143, 28, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-item:hover {
+  background: linear-gradient(90deg, 
+    rgba(189, 143, 28, 0.1) 0%,
+    transparent 100%
+  );
+  color: #faf6f2;
+  padding-left: 2rem;
+}
+
+.sidebar-item:hover::before {
+  opacity: 1;
+}
+
+/* Auth Buttons (if you have them) */
+.auth-buttons a {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.auth-buttons .login-btn {
+  color: #93856b;
+  border: 1px solid rgba(189, 143, 28, 0.3);
+}
+
+.auth-buttons .login-btn:hover {
+  background: rgba(189, 143, 28, 0.1);
+  border-color: rgba(189, 143, 28, 0.5);
+  color: #faf6f2;
+}
+
+.auth-buttons .signup-btn {
+  background: linear-gradient(135deg, #5c3a1f, #7a4e2a);
+  color: #faf6f2;
+  border: 1px solid rgba(189, 143, 28, 0.3);
+}
+
+.auth-buttons .signup-btn:hover {
+  background: linear-gradient(135deg, #7a4e2a, #8d5b34);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(20, 11, 5, 0.4);
+}
+
+/* Old navigation - hidden */
+.main-nav {
+  display: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .search-container {
+    display: none;
+  }
+
+  .logo-text {
+    font-size: 1.2rem;
+  }
+
+  .auth-section .user-info span {
+    display: none;
+  }
+
+  .auth-buttons a {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-buttons a span {
+    display: none;
+  }
+  
+  .logo-text {
+    font-size: 1rem;
+  }
+}

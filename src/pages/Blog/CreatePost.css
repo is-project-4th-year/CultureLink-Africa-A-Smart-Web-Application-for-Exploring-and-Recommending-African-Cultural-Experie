@@ -1,0 +1,276 @@
+/* src/pages/Blog/CreatePost.css */
+
+.create-post-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  padding: 2rem 1rem;
+}
+
+.create-post-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.back-btn:hover {
+  border-color: #006600;
+  color: #006600;
+}
+
+.create-post-header {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-top: 4px solid #ce1126;
+}
+
+.create-post-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.create-post-header p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert-error {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+}
+
+.create-post-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.image-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.change-image-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.change-image-btn:hover {
+  background: #2980b9;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.875rem;
+  border: 2px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #006600;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 200px;
+  line-height: 1.6;
+}
+
+.char-count {
+  display: block;
+  text-align: right;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #f0f0f0;
+}
+
+.cancel-btn,
+.submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  color: #333;
+  border: 2px solid #ddd;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background: #e8e8e8;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #ce1126 0%, #a00e1f 100%);
+  color: white;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(206, 17, 38, 0.3);
+}
+
+.cancel-btn:disabled,
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .create-post-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+/* Image Upload Styles */
+.image-upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 0.5rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.image-upload-area:hover {
+  border-color: #006600;
+  background: #f9f9f9;
+}
+
+.image-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.image-upload-label svg {
+  color: #999;
+}
+
+.image-upload-label span {
+  font-weight: 600;
+  color: #333;
+}
+
+.image-upload-label small {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.image-preview-container {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.remove-image-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.remove-image-btn:hover {
+  background: #c0392b;
+}
