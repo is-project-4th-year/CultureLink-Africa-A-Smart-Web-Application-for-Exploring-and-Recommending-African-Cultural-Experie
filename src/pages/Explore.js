@@ -10,8 +10,32 @@ const Explore = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
   const { currentUser } = useAuth();
-const [userPreferences, setUserPreferences] = useState(null);
-const [showingRecommended, setShowingRecommended] = useState(false);
+  const [userPreferences, setUserPreferences] = useState(null);
+  const [showingRecommended, setShowingRecommended] = useState(true);
+ 
+  const getTribeImageUrl = (tribeName) => {
+  // Direct working Unsplash image URLs
+  const images = {
+    'Kikuyu': 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=800&h=400&fit=crop',
+    'Maasai': 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&h=400&fit=crop',
+    'Luo': 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=800&h=400&fit=crop', // ✅ Changed to lake/fishing scene
+    'Kalenjin': 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=400&fit=crop',
+    'Kamba': 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&h=400&fit=crop', // ✅ African people in traditional attire
+    'Luhya': 'https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=800&h=400&fit=crop', // ✅ Traditional ceremony/cultural gathering
+
+    'Kisii': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=400&fit=crop',
+    'Meru': 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop',
+    'Mijikenda': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop',
+    'Turkana': 'https://images.unsplash.com/photo-1591695448764-db3e197a1bc0?w=800&h=400&fit=crop',
+    'Embu': 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=400&fit=crop',
+    'Taita': 'https://images.unsplash.com/photo-1618083707368-b3823daa2726?w=800&h=400&fit=crop',
+    'Samburu': 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&h=400&fit=crop',
+    'Pokot': 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&h=400&fit=crop',
+    'Tharaka': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop'
+  };
+  
+  return images[tribeName] || 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&h=400&fit=crop';
+};
 
 
   const kenyanTribes = [
@@ -1178,7 +1202,8 @@ const [showingRecommended, setShowingRecommended] = useState(false);
         )}
 
         {/* Smart Recommendations Button */}
-{currentUser && userPreferences && !showingRecommended && (
+{/* Smart Recommendations Button - ALWAYS SHOW for demo */}
+{currentUser && (
   <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
     <button
       onClick={filterByRecommendations}
@@ -1192,11 +1217,7 @@ const [showingRecommended, setShowingRecommended] = useState(false);
         fontWeight: '600',
         cursor: 'pointer',
         boxShadow: '0 4px 15px rgba(107, 68, 35, 0.25)',
-        transition: 'all 0.3s ease',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        margin: '0 auto'
+        transition: 'all 0.3s ease'
       }}
       onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
       onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
@@ -1206,19 +1227,64 @@ const [showingRecommended, setShowingRecommended] = useState(false);
   </div>
 )}
 
+
 {/* Showing Recommendations Badge */}
 {showingRecommended && (
   <div style={{
     textAlign: 'center',
-    marginBottom: '1.5rem',
-    padding: '1rem',
-    background: 'linear-gradient(135deg, rgba(139, 111, 71, 0.1) 0%, rgba(107, 68, 35, 0.05) 100%)',
+    marginBottom: '2rem',
+    padding: '2rem',
+    backgroundColor: '#FFF8DC',
     borderRadius: '12px',
-    border: '1px solid rgba(139, 111, 71, 0.2)'
+    border: '3px solid #CD853F',
+    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+    animation: 'fadeIn 0.5s ease-in'
   }}>
-    <p style={{ color: '#6B4423', fontWeight: '600', margin: 0 }}>
-      Showing recommendations based on your preferences
+    <h2 style={{ 
+      color: '#8B4513', 
+      fontSize: '1.8rem', 
+      marginBottom: '1rem',
+      fontWeight: 'bold'
+    }}>
+       Recommended for You 
+    </h2>
+    
+    <p style={{ 
+      color: '#654321', 
+      fontSize: '1.2rem', 
+      marginBottom: '0.5rem',
+      fontWeight: '500'
+    }}>
+      Based on your interest in:
     </p>
+    
+    <div style={{
+      display: 'inline-block',
+      backgroundColor: '#CD853F',
+      color: 'white',
+      padding: '0.5rem 1.5rem',
+      borderRadius: '25px',
+      fontSize: '1.3rem',
+      fontWeight: 'bold',
+      margin: '1rem 0'
+    }}>
+      {/* Use actual preferences if available, otherwise use demo data */}
+      {userPreferences?.tribes?.join(', ') || 'Kalenjin'} Culture
+    </div>
+    
+    {/* Show interests if available */}
+    {(userPreferences?.interests || ['ceremonies', 'music', 'food']).length > 0 && (
+      <p style={{ 
+        color: '#654321', 
+        fontSize: '1.1rem',
+        marginTop: '0.5rem'
+      }}>
+        & {(userPreferences?.interests || ['ceremonies', 'music', 'food']).map(interest => 
+          culturalCategories.find(c => c.id === interest)?.name || interest
+        ).join(', ')}
+      </p>
+    )}
+    
     <button
       onClick={() => {
         setShowingRecommended(false);
@@ -1226,20 +1292,25 @@ const [showingRecommended, setShowingRecommended] = useState(false);
         setSelectedCategory('all');
       }}
       style={{
-        marginTop: '0.5rem',
-        padding: '0.5rem 1rem',
-        background: 'white',
-        border: '1px solid #8B6F47',
+        marginTop: '1.5rem',
+        padding: '0.8rem 2rem',
+        backgroundColor: '#8B4513',
+        color: 'white',
+        border: 'none',
         borderRadius: '8px',
-        color: '#6B4423',
         cursor: 'pointer',
-        fontSize: '0.9rem'
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
       }}
+      onMouseOver={(e) => e.target.style.backgroundColor = '#654321'}
+      onMouseOut={(e) => e.target.style.backgroundColor = '#8B4513'}
     >
       Clear Recommendations
     </button>
   </div>
 )}
+
 
         {/* Kenyan Tribes Overview */}
         <section className="tribes-section">
@@ -1282,7 +1353,52 @@ const [showingRecommended, setShowingRecommended] = useState(false);
           ) : (
             <div className="tribes-grid">
               {filteredTribes.map(tribe => (
+                
                 <div key={tribe.name} className="tribe-card" style={{ marginBottom: '2rem' }}>
+                   <div style={{ 
+      width: '100%', 
+      overflow: 'hidden',
+      borderRadius: '8px 8px 0 0',
+      marginBottom: '1rem'
+    }}>
+      <div style={{ 
+  width: '100%', 
+  overflow: 'hidden',
+  borderRadius: '8px 8px 0 0',
+  marginBottom: '1rem'
+}}>
+  <img 
+    src={getTribeImageUrl(tribe.name)}
+    alt={`${tribe.name} tribe`}
+    style={{
+      width: '100%', 
+      height: '300px', 
+      objectFit: 'cover',
+      display: 'block'
+    }}
+    onError={(e) => {
+      // Fixed fallback - use a solid color instead
+      e.target.style.display = 'none';
+      e.target.parentElement.innerHTML = `
+        <div style="
+          width: 100%;
+          height: 300px;
+          background: linear-gradient(135deg, #CD853F 0%, #8B4513 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 2rem;
+          font-weight: bold;
+          border-radius: 8px 8px 0 0;
+        ">
+          ${tribe.name}
+        </div>
+      `;
+    }}
+  />
+</div>
+    </div>
                   <h3>{tribe.name} People</h3>
                   <div style={{ 
                     display: 'grid', 

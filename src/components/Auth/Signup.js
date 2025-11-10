@@ -563,7 +563,7 @@ const Signup = () => {
               transition: 'background-color 0.3s'
             }}
           >
-            {loading ? '🔄 Creating Account...' : '🚀 Create Account'}
+            {loading ? ' Creating Account...' : ' Create Account'}
           </button>
         </form>
 

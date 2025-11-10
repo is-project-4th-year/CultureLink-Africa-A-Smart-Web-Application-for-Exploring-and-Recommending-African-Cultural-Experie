@@ -1,6 +1,7 @@
 // src/pages/Chat/ChatInterface.js - Updated with Auto-naming and Rename
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import ReactMarkdown from 'react-markdown';
 import { getChatbotResponse, initializeChatbot } from '../../services/chatbotService';
 import { 
   createChatSession, 
@@ -469,7 +470,10 @@ const ChatInterface = () => {
                   )}
                 </div>
                 <div className="message-bubble">
-                  <p className="message-text">{msg.content}</p>
+                  <div className="message-text">
+  <ReactMarkdown>{msg.content}</ReactMarkdown>
+</div>
+
                   {msg.sources && msg.sources.length > 0 && (
                     <div className="message-sources">
                       <small>Sources used: {msg.sources.slice(0, 2).join(', ')}
