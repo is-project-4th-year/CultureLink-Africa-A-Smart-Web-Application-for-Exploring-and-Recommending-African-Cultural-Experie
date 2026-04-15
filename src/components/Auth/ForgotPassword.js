@@ -100,6 +100,8 @@ const ForgotPassword = () => {
             <strong style={{ color: '#e67e22' }}>{email}</strong>
           </p>
 
+          This is actually a pretty important step, so let's make sure you know exactly what to do next.
+
           <div style={{
             background: '#e8f5e8',
             border: '1px solid #c3e6c3',

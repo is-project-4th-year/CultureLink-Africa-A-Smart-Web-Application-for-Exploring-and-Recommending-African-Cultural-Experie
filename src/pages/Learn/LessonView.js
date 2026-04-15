@@ -158,20 +158,27 @@ const LessonView = () => {
         {/* Flashcard */}
         {currentWord && (
           <div className="flashcard-container">
-            <div 
-              className={`flashcard ${flipped ? 'flipped' : ''}`}
-              onClick={handleFlip}
-            >
-              <div className="flashcard-front" style={{ borderColor: language.color }}>
-                <div className="word-category">{currentWord.category}</div>
-                <div className="word-main">{currentWord.word}</div>
-                <div className="word-pronunciation">{currentWord.pronunciation}</div>
-                <div className="flip-hint">Click to see translation</div>
-              </div>
-              <div className="flashcard-back" style={{ backgroundColor: language.color }}>
-                <div className="word-translation">{currentWord.translation}</div>
-                <div className="word-original">{currentWord.word}</div>
-              </div>
+           <div 
+  className={`flashcard ${flipped ? 'flipped' : ''}`}
+  onClick={handleFlip}
+  style={{ borderColor: language.color }}
+>
+  <div className="flashcard-front" style={{ borderColor: language.color }}>
+    <div className="word-category">{currentWord.category}</div>
+    <div className="word-main">{currentWord.word}</div>
+    <div className="word-pronunciation">{currentWord.pronunciation}</div>
+    <div className="flip-hint">Click to see translation</div>
+  </div>
+
+  <div 
+    className="flashcard-back"
+    style={{ backgroundColor: '#422917ff' }}
+  >
+    <div className="word-translation">{currentWord.translation}</div>
+    <div className="word-original">{currentWord.word}</div>
+  </div>
+
+
             </div>
 
             {/* Card Actions */}

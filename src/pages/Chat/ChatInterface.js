@@ -445,7 +445,7 @@ const ChatInterface = () => {
               <Bot size={30} className="header-icon" />
               <div className="header-text">
                 <h1>Kenyan Culture Assistant (Shujaa AI)</h1>
-                <p>Powered by Qwen AI</p>
+                
               </div>
             </div>
           </div>
