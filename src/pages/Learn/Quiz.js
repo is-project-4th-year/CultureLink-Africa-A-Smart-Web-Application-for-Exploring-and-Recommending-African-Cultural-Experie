@@ -1,5 +1,5 @@
 // src/pages/Learn/Quiz.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
@@ -24,11 +24,7 @@ const Quiz = () => {
   const language = languages[languageId];
   const QUIZ_LENGTH = 10;
 
-  useEffect(() => {
-    generateQuiz();
-  }, [languageId]);
-
-  const generateQuiz = () => {
+  const generateQuiz = useCallback(() => {
     const vocabulary = getVocabulary(languageId);
     
     // Shuffle and select random words
@@ -57,7 +53,11 @@ const Quiz = () => {
     });
     
     setQuestions(quizQuestions);
-  };
+  }, [languageId]);
+
+  useEffect(() => {
+    generateQuiz();
+  }, [generateQuiz]);
 
   const handleAnswer = (answer) => {
     if (answered) return;

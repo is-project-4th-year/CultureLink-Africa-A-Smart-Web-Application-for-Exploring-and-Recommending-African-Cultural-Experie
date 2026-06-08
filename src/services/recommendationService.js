@@ -1,7 +1,7 @@
 
 // src/services/recommendationService.js
 
-import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
 /**
@@ -79,7 +79,7 @@ export const getRecommendedCategories = (userPreferences, allCategories) => {
 export const getRecommendedContent = (userPreferences) => {
   if (!userPreferences) return [];
 
-  const { tribes = [], interests = [], purpose = [] } = userPreferences;
+  const { tribes = [], interests = [] } = userPreferences;
 
   const recommendations = [];
 
